@@ -102,6 +102,78 @@ select department, max(salary) from worker group by department;
 -- total salary per department
 select department, sum(salary) from worker group by department;
 
+-- group by having 
+select department, count(department) from worker group by department having count(department)>2;
+
+create database temp;
+
+use temp;
+
+-- ==============================================
+-- = Understanding UNIQUE AND CHECK constraints =
+-- ============================================== 
+
+create table account(
+  id int primary key,
+  name varchar(255) unique,
+  balance int,
+  CONSTRAINT acc_balance_chk CHECK(balance>1000)
+  );
+  
+insert into account
+   (id,name,balance) values 
+   (1,'A',10000);
+   
+insert into account 
+  (id,name,balance) values
+   (2,'B',100);
+   
+select * from account;
+
+-- understanding default constraint
+create table account(
+  id int primary key,
+  name varchar(255) unique,
+  balance int not null default 0
+  );
+
+insert into account 
+   (id,name) values
+     (1,'A');
+
+insert into account 
+   (id,name) values
+     (2,'B');
+
+select * from account;
+ 
+
+
+-- ==============================================
+--     ALTER COMMANDS TO ALTER TABLE IN DB     
+-- ==============================================  
+ 
+-- add new coloumn
+alter table account add interest float not null default 0;
+
+-- modify table data 
+alter table account modify interest double not null default 0;
+
+-- describing table it describe everything about table 
+desc account;
+
+-- change coloumn rename coloumn 
+alter table account change column interest saving_interest float not null default 0;
+
+-- drop column 
+alter table account drop column saving_interest;
+
+-- rename the  table name 
+alter table account rename to account_details;
+
+select * from account;
+
+
 
 
 
