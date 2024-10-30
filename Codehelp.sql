@@ -85,7 +85,10 @@ SELECT * FROM Worker WHERE first_name LIKE '_a%';
 -- sorting using orderby
 select * from Worker Order by salary asc;
 
-
+-- ==============================================
+-- = Understanding  GROUPING count avg min max  =
+-- ============================================== 
+ 
 -- distinct keyword
 select distinct first_name from Worker;
 
@@ -107,7 +110,9 @@ select department, count(department) from worker group by department having coun
 
 create database temp;
 
+-- USE IS USED TO SWITCH THE DATABASE
 use temp;
+
 
 -- ==============================================
 -- = Understanding UNIQUE AND CHECK constraints =
@@ -172,6 +177,79 @@ alter table account drop column saving_interest;
 alter table account rename to account_details;
 
 select * from account;
+
+
+-- insert command in DML 
+
+create table customer(
+id int primary key,
+name varchar(255),
+address varchar(255),
+gender char(2),
+city varchar(255),
+pincode integer default 000000
+);
+
+insert into customer(id,name,address,gender,city,pincode) 
+ values (1251,'Ram Kumar','Dilbagh Nagar', 'M', 'Jalandhar',114002);
+ 
+select * from customer;
+ 
+insert into customer 
+   values(1223,'Raj','Pantnagar','M','Rudrapur',112323);
+   
+
+insert into customer (id,name)
+   values(121,'Naomi');
+
+-- update an already present table 
+update customer set address ='Mumbai', gender='M'  where id=121;	
+update customer set city='Tokyo',pincode=110100 where id =121;
+
+-- update multiple rows TO UPDATE ALL DISABLE SQL_SAFE_UPDATES;
+set SQL_SAFE_UPDATES = 1;
+update customer set pincode = 110010;
+update customer set pincode = pincode+1;
+
+-- delete command 
+ delete from customer where id=121;
+ -- WHOLE TABLE DELETE BY DISABLE SQL_SAFE_UPDATES;
+DELETE FROM CUSTOMER; 
+
+SELECT * FROM customer;
+
+
+-- delete constraints ON DELETE CASCADE and  ON DELETE NULL 
+create table order_details(
+order_id integer primary key,
+delivery_date  DATE,
+cust_id int,
+-- foreign key (cust_id) references customer(id) on delete cascade
+foreign key (cust_id) references customer(id) on delete set null 
+);
+
+insert into customer 
+ values(1,'Rajai','Pantnag','M','Rudrar',112323); 
+ 
+insert into order_details 
+   values(2,'2019-04-11', 1);
+
+insert into order_details 
+   values(3,'2019-04-12', 1); 
+delete from customer where id =1;
+
+
+-- replace the values
+replace into customer(id,city) values(1251,'Colony');
+replace into customer(id,city) values (1333,'Jeh');
+
+replace into customer set id='1251',name='Max', city='utah';
+
+replace into customer set id='1251', name ='Max', city='utah', address='janat', gender='M', pincode=110011;
+ 
+select * from customer;
+  
+
 
 
 
