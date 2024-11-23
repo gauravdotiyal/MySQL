@@ -86,3 +86,69 @@ on e.id=p.emp_id;
 -- list out all the combination for the employee's name and project that can exist
 select e.fname,e.lname,p.id,p.name from employee as e cross join project as p;
 select p.id,p.name,e.fname,e.lname from project as p cross join employee as e;
+
+
+-- SET OPERATIONS AND SUBQUERIES IN SQL 
+ use org;
+
+-- set operations 
+create table dept1(
+empid integer primary key,
+name varchar(24),
+role varchar(100)
+);
+
+insert into dept1(empid,name,role) 
+values
+(1,'A','engineer'),
+(2,'B','salesman'),
+(3,'C','manager'),
+(4,'D','salesman'),
+(5,'E','engineer');
+
+select * from dept1;
+
+create table dept2(
+empid integer primary key,
+name varchar (24),
+role varchar(23)
+);
+
+insert into dept2(empid,name,role) 
+values
+(3,'C','manager'),
+(6,'F','marketing'),
+(7,'G','salesman');
+
+
+-- list out all the employees in the company
+select * from dept1 union select * from dept2;
+
+
+-- list out all the employees in the department who work as salesman 
+select * from dept1 where role ='salesman'
+union 
+select * from dept2 where role ='salesman';
+
+-- list out all the employess who work in all the departments 
+select dept1.* from dept1 inner join dept2 using(empid);
+
+-- list all the employees working in dept1 but not in dept2
+select dept1.* from dept1 left join dept2 using (empid) 
+where dept2.empid is null;
+
+
+use temp;
+
+-- sub query 
+-- where clause same table 
+-- employees with age > 20 
+select * from employee where age in ( select age from employee where age >20);
+
+-- employee details working in more than one project 
+select * from employee where id in (select  emp_id from project group by emp_id having count(emp_id)>1);
+
+-- single value subquery
+-- emp details 
+select * from employee where age = (select avg(age) from employee);
+
