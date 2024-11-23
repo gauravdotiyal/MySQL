@@ -248,11 +248,4 @@ replace into customer set id='1251',name='Max', city='utah';
 replace into customer set id='1251', name ='Max', city='utah', address='janat', gender='M', pincode=110011;
  
 select * from customer;
-  
-
-
-
-
-
-
 
